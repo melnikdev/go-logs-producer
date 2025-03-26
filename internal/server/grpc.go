@@ -8,11 +8,12 @@ import (
 )
 
 type server struct {
+	kafkaClient kafka.ClientI
 	pb.UnimplementedLogServiceServer
 }
 
-func NewLogGRPCServer() pb.LogServiceServer {
-	return &server{}
+func NewLogGRPCServer(kafkaClient kafka.ClientI) pb.LogServiceServer {
+	return &server{kafkaClient: kafkaClient}
 }
 
 func (s *server) SendLog(ctx context.Context, req *pb.LogRequest) (*pb.LogResponse, error) {
@@ -24,8 +25,7 @@ func (s *server) SendLog(ctx context.Context, req *pb.LogRequest) (*pb.LogRespon
 		Timestamp: req.Timestamp,
 	}
 
-	kafkaClient := kafka.NewKafkaClient()
-	err := kafkaClient.Send(logMessage)
+	err := s.kafkaClient.Send(logMessage)
 
 	if err != nil {
 		return &pb.LogResponse{Status: "error"}, err
