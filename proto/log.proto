@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package proto;
+
+option go_package = "github.com/melnikdev/go-logs-producer/proto;proto";
+
+service LogService {
+  rpc SendLog (LogRequest) returns (LogResponse);
+}
+
+message LogRequest {
+  string service = 1;
+  string level = 2;
+  string message = 3;
+  string timestamp = 4;
+}
+
+message LogResponse {
+  string status = 1;
+}
