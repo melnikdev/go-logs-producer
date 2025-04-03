@@ -3,6 +3,7 @@ package kafka
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 
 	"github.com/melnikdev/go-logs-producer/internal/config"
 	"github.com/segmentio/kafka-go"
@@ -30,11 +31,12 @@ func NewKafkaClient(config *config.Config) ClientI {
 func (c *client) Send(logMessage LogMessage) error {
 
 	writer := &kafka.Writer{
-		Addr:     kafka.TCP(c.config.GRPCServer.Addr),
-		Topic:    c.config.GRPCServer.Topic,
+		Addr:     kafka.TCP(c.config.KAFKA.Broker),
+		Topic:    c.config.KAFKA.Topic,
 		Balancer: &kafka.LeastBytes{},
 	}
 
 	messageBytes, _ := json.Marshal(logMessage)
+	fmt.Println(string(messageBytes))
 	return writer.WriteMessages(context.Background(), kafka.Message{Value: messageBytes})
 }

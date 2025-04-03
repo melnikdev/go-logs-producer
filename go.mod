@@ -3,12 +3,12 @@ module github.com/melnikdev/go-logs-producer
 go 1.22.2
 
 require (
+	github.com/joho/godotenv v1.5.1
 	github.com/segmentio/kafka-go v0.4.47
 	google.golang.org/protobuf v1.36.4
 )
 
 require (
-	github.com/joho/godotenv v1.5.1 // indirect
 	golang.org/x/net v0.34.0 // indirect
 	golang.org/x/sys v0.29.0 // indirect
 	golang.org/x/text v0.21.0 // indirect

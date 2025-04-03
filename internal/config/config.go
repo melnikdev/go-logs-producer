@@ -6,8 +6,8 @@ import (
 )
 
 type Config struct {
-	Server     *Server
-	GRPCServer *GRPCServer
+	Server *Server
+	KAFKA  *Kafka
 }
 
 type Server struct {
@@ -15,9 +15,9 @@ type Server struct {
 	Network string
 }
 
-type GRPCServer struct {
-	Addr  string
-	Topic string
+type Kafka struct {
+	Broker string
+	Topic  string
 }
 
 func NewConfig() *Config {
@@ -26,9 +26,9 @@ func NewConfig() *Config {
 			Network: getEnv("SERVER_NETWORK", "tcp"),
 			Port:    getEnv("SERVER_PORT", "8080"),
 		},
-		GRPCServer: &GRPCServer{
-			Addr:  getEnv("GRPC_SERVER_ADDR", "localhost:9092"),
-			Topic: getEnv("GRPC_SERVER_TOPIC", "logs_topic"),
+		KAFKA: &Kafka{
+			Broker: getEnv("KAFKA_BROKER", "localhost:9092"),
+			Topic:  getEnv("KAFKA_TOPIC", "logs_topic"),
 		},
 	}
 }
